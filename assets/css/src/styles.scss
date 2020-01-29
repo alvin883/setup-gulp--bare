@@ -1,0 +1,18 @@
+@import "./lib/jquery-ui.scss";
+@import "components/html.scss";
+
+body {
+    transform: translate(-50%, -50%);
+    animation: myanimation 2s;
+    transition: opacity 2s;
+
+    @keyframes myanimation {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100px;
+        }
+    }
+}
