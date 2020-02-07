@@ -97,3 +97,26 @@ module.exports = {
 > #### Note:
 >
 > You should change `proxy` and `host` options to URL of your local server
+
+##### Example BrowserSync Config
+
+```javascript
+module.exports = {
+    browserSync: {
+        watch: [
+            "./assets/css/dist/*.min.css",
+            "./assets/js/dist/*.min.js",
+            "./**/*.php"
+        ],
+
+        // Available config options
+        // https://www.browsersync.io/docs/options
+        config: {
+            proxy: "http://projectname.local/",
+            host: "projectname.local",
+            watchTask: true,
+            open: "external"
+        }
+    }
+};
+```
