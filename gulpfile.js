@@ -15,6 +15,7 @@ const eventStream = require("event-stream");
 const gulpOptions = require("./gulpfile.options");
 const gulpBabel = require("gulp-babel");
 const gulpConcat = require("gulp-concat");
+const path = require("path");
 
 /**
  * Will be inserted as ptions for node-sass
@@ -82,7 +83,16 @@ gulp.task("compile-js", function() {
     });
 
     let stream = list.map(item => {
-        let { name, src } = item;
+        let name, src;
+
+        if (typeof item === "string") {
+            let extension = path.extname(item);
+            name = path.basename(item, extension);
+            src = item;
+        } else {
+            name = item.name;
+            src = item.src;
+        }
 
         return gulp
             .src(src, { since: gulp.lastRun("watch-js"), allowEmpty: true })
@@ -93,7 +103,6 @@ gulp.task("compile-js", function() {
             .pipe(gulpIf(minify, gulpUglify()))
             .pipe(gulpIf(sourcemap, gulpSourcemaps.write(".")))
             .pipe(gulp.dest(distFolder));
-        // .pipe(onSuccess);
     });
 
     return eventStream.merge(stream).pipe(onSuccess);

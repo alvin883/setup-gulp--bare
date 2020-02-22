@@ -35,13 +35,13 @@ module.exports = {
 
 ### Javascript Options Object
 
-| Option     | Type                       | Default | Description                       |
-| ---------- | -------------------------- | ------- | --------------------------------- |
-| list       | array of [jslist](#jslist) | []      | list of bundle                    |
-| watch      | array                      | []      | list of file that will be watched |
-| distFolder | string                     | ""      | destination for output bundle     |
-| minify     | boolean                    | false   | whether use minify or not         |
-| sourcemap  | boolean                    | false   | whether use sourcemap or not      |
+| Option     | Type                                                                   | Default | Description                       |
+| ---------- | ---------------------------------------------------------------------- | ------- | --------------------------------- |
+| list       | array of [jslist](#jslist) or a string (string only for a single file) | []      | list of bundle                    |
+| watch      | array                                                                  | []      | list of file that will be watched |
+| distFolder | string                                                                 | ""      | destination for output bundle     |
+| minify     | boolean                                                                | false   | whether use minify or not         |
+| sourcemap  | boolean                                                                | false   | whether use sourcemap or not      |
 
 > ##### Note:
 >
