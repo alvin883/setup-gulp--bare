@@ -84,14 +84,24 @@ gulp.task("compile-js", function() {
 
     let stream = list.map(item => {
         let name, src;
+        let isPolyfill = true;
+        let polyfill = "./node_modules/@babel/polyfill/dist/polyfill.min.js";
 
+        // Check whether a single file or an object
         if (typeof item === "string") {
             let extension = path.extname(item);
             name = path.basename(item, extension);
-            src = item;
+            src = [item];
         } else {
+            let issetPolyfill = typeof item.polyfill !== "undefined";
             name = item.name;
             src = item.src;
+            if (issetPolyfill) isPolyfill = item.polyfill;
+        }
+
+        // Check polyfill option
+        if (isPolyfill) {
+            src = [polyfill, ...src];
         }
 
         return gulp

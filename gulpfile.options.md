@@ -49,10 +49,16 @@ module.exports = {
 
 <h5 id="jslist">JS List Object</h5>
 
-| Key  | Type   | Default | Description                       |
-| ---- | ------ | ------- | --------------------------------- |
-| name | string | ""      | Name for output bundle file       |
-| src  | array  | []      | List of input file for the bundle |
+| Key      | Type    | Default | Description                       |
+| -------- | ------- | ------- | --------------------------------- |
+| name     | string  | ""      | Name for output bundle file       |
+| src      | array   | []      | List of input file for the bundle |
+| polyfill | boolean | true    | Whether use polyfill or not       |
+
+> ##### Note:
+>
+> Without minify: Polyfill will increase file size up to _164kB_  
+> With minify : Polyfill will increase file size up to _94kB_
 
 ##### Example Javascript Options
 
@@ -60,6 +66,8 @@ module.exports = {
 module.exports = {
     javascript: {
         list: [
+            // Single file with default option
+            "./assets/js/src/single-file.js",
             {
                 name: "themes",
                 src: [
@@ -68,15 +76,12 @@ module.exports = {
                 ]
             },
             {
-                name: "single-file",
-                src: ["./assets/js/src/single-file.js"]
-            },
-            {
                 name: "vendors",
                 src: [
                     "./node_modules/jquery/dist/jquery.js",
                     "./assets/js/src/vendors/jquery-ui.js"
-                ]
+                ],
+                polyfill: false
             }
         ],
         watch: ["./assets/js/src/**/*.js", "!./assets/js/src/not-watch.js"],
