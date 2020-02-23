@@ -14,33 +14,45 @@
 
 ## Here's some command that you can use:
 
-1. `gulp`
+1.  `gulp`
 
     This is the default command for development.
 
-    - Watch for `.scss`, `.js`, `.php` and recompile if there's some changes
-    - Compile `.scss` and `.js`
-    - Reload browser automatically if there's a change
+    -   Watch for `.scss`, `.js`, `.php` and recompile if there's some changes
+    -   Compile `.scss` and `.js`
+    -   Reload browser automatically if there's a change
 
-2. `gulp watch-js`
+2.  `gulp watch-js`
 
     Watch for `.js` and recompile if there's some changes
 
-3. `gulp compile-js`
+3.  `gulp compile-js`
 
     Compile javascript file
 
-4. `gulp watch-sass`
+4.  `gulp watch-sass`
 
     Watch for `.sass` and recompile if there's some changes
 
-5. `gulp compile-sass`
+5.  `gulp compile-sass`
 
     Compile SASS/SCSS file
 
-6. `gulp browser-sync`
+6.  `gulp browser-sync`
 
     Will reload browser automatically if there's a change
+
+#### Options
+
+There are some options that you can use in the command line :
+
+-   `--not=file-name`
+
+    To exclude specific file from compiling
+
+-   `--production`
+
+    To make production ready output (with minify and without soucemaps)
 
 ## Features
 
