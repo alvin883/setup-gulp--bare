@@ -33,16 +33,33 @@ const sassOptions = {
  * SASS Compiler, without watcher
  */
 gulp.task("compile-sass", function() {
-    const { sourcemap, minify, src } = gulpOptions.sass;
-    const _sassOptions = {
-        ...sassOptions,
-        outputStyle: minify ? "compressed" : "nested"
-    };
+    let { sourcemap, minify, src } = gulpOptions.sass;
     const onSuccess = gulpNotify({
         title: "SASS",
         message: "All Compiled!",
         onLast: true
     });
+
+    // Check --production option from the cli
+    if (cliArgs && cliArgs.argv.production) {
+        minify = true;
+        sourcemap = false;
+    }
+
+    const _sassOptions = {
+        ...sassOptions,
+        outputStyle: minify ? "compressed" : "nested"
+    };
+
+    // Check --not option from the cli
+    if (cliArgs && cliArgs.argv.not) {
+        src = src.filter(item => {
+            let extension = path.extname(item);
+            let name = path.basename(item, extension);
+
+            return !cliArgs.argv.not.includes(name);
+        });
+    }
 
     return gulp
         .src(src)
