@@ -16,9 +16,11 @@ const gulpOptions = require("./gulpfile.options");
 const gulpBabel = require("gulp-babel");
 const gulpConcat = require("gulp-concat");
 const path = require("path");
+const yargs = require("yargs");
+const cliArgs = yargs.array("not").boolean("production");
 
 /**
- * Will be inserted as ptions for node-sass
+ * Will be inserted as options for node-sass
  * @link https://github.com/sass/node-sass#options
  */
 const sassOptions = {
@@ -82,10 +84,17 @@ gulp.task("compile-js", function() {
         onLast: true
     });
 
+    // Check --production option from the cli
+    if (cliArgs && cliArgs.argv.production) {
+        minify = true;
+        sourcemap = false;
+    }
+
     let stream = list.map(item => {
         let name, src;
         let isPolyfill = true;
         let polyfill = "./node_modules/@babel/polyfill/dist/polyfill.min.js";
+        const emptyStream = gulp.src(".", { allowEmpty: true });
 
         // Check whether a single file or an object
         if (typeof item === "string") {
@@ -99,16 +108,17 @@ gulp.task("compile-js", function() {
             if (issetPolyfill) isPolyfill = item.polyfill;
         }
 
+        // Check --not option from the cli
+        if (cliArgs && cliArgs.argv.not.includes(name)) return emptyStream;
+
         // Check polyfill option
-        if (isPolyfill) {
-            src = [polyfill, ...src];
-        }
+        if (isPolyfill) src = [polyfill, ...src];
 
         return gulp
             .src(src, { since: gulp.lastRun("watch-js"), allowEmpty: true })
             .pipe(gulpSourcemaps.init())
             .pipe(gulpConcat(name + ".js"))
-            .pipe(gulpIf(sourcemap, gulpRename({ suffix: ".min" })))
+            .pipe(gulpIf(minify, gulpRename({ suffix: ".min" })))
             .pipe(gulpBabel())
             .pipe(gulpIf(minify, gulpUglify()))
             .pipe(gulpIf(sourcemap, gulpSourcemaps.write(".")))
